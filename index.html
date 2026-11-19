@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Słownik PL → EN</title>
+<style>
+  body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 0 16px; }
+  #pl { font-size: 28px; margin: 24px 0; }
+  input { font-size: 20px; padding: 8px; width: 100%; box-sizing: border-box; }
+  button { font-size: 18px; padding: 8px 16px; margin-top: 12px; }
+  #res { margin-top: 16px; font-size: 20px; min-height: 30px; }
+  .ok { color: green; } .bad { color: red; }
+</style>
+</head>
+<body>
+<div id="score"></div>
+<div id="pl"></div>
+<input id="inp" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="po angielsku...">
+<button id="btn">Sprawdź</button>
+<div id="res"></div>
+
+<script>
+const RAW = `
+blok mieszkalny = block of flats
+dom parterowy = bungalow
+chata, domek = cabin
+domek wiejski = cottage
+dom wolnostojący = detached house
+dom jednorodzinny = family home
+dom w gospodarstwie rolnym = farmhouse
+osiedle mieszkaniowe = housing estate
+pałac, rezydencja = mansion
+dom spokojnej starości = nursing home
+bliźniak = semi-detached house
+wieżowiec = skyscraper | tower block
+kawalerka = studio flat
+dom szeregowy, segment = terraced house
+w przystępnej cenie = affordable
+wszystkie wygody = all mod cons
+kawalerka do wynajęcia = bedsit
+osiedle zamknięte = gated community
+przyczepa mieszkalna = mobile home
+mieszkania dla osób wymagających opieki = sheltered accommodation
+po drugiej stronie ulicy = across the road from
+centralne położenie = central location
+dojeżdżać (do pracy lub do szkoły) = commute
+dzielnica = district
+w wiejskiej okolicy = in a rural area
+na wsi = in the countryside
+na odludziu, w szczerym polu = in the middle of nowhere
+na przedmieściach = in the suburbs
+mieszkaniec/mieszkanka = inhabitant
+położony = located
+sąsiad/sąsiadka = neighbour
+sąsiedztwo, okolica = neighbourhood
+Stare Miasto = Old Town
+na skraju (czegoś) = on the edge of
+wychodzić na, mieć widok na = overlook
+transport publiczny = public transport
+mieszkańcy = residents
+wioska = village
+niedaleko od = a stone's throw from
+udogodnienia = amenities
+zgiełk = hustle and bustle
+na głębokiej wsi = in the heart of the countryside
+dróżka = lane
+liściasty, zielony = leafy
+na uboczu = off the beaten track
+w bliskiej odległości (możliwej do pokonania pieszo) = within walking distance of
+strych, poddasze = attic | loft
+piwnica = basement | cellar
+wiata na samochód = carport
+sufit = ceiling
+komin = chimney
+na dole, na parterze = downstairs
+podjazd = drive
+ogrodzenie, płot = fence
+kominek = fireplace
+drzwi frontowe = front door
+drzwi tylne = back door
+brama = gate
+żywopłot = hedge
+parter = ground floor
+domowa pralnia = laundry room
+trawnik = lawn
+winda = lift
+salon = living room | lounge
+ganek = porch
+dach = roof
+szopa = shed
+klatka schodowa = staircase
+schodki = steps
+gabinet = study
+na górze, na piętrze = upstairs
+dziedziniec, podwórze = yard
+przybudówka = extension
+półpiętro = landing
+spiżarnia = larder
+pomieszczenie gospodarcze = utility room
+garderoba = walk-in closet | wardrobe
+przestronny = airy | spacious
+źle wykończony = badly-decorated
+jasny = bright
+zagracony = cluttered
+przerobić, przekształcić = convert
+przytulny = cosy | homely
+zakurzony = dusty
+przyjazny dla środowiska = eco-friendly
+umeblowany = furnished
+nieumeblowany = unfurnished
+luksusowy = luxurious
+konserwować, utrzymywać = maintain
+błoto = mud
+staromodny = old-fashioned
+bez ścian działowych = open-plan
+z drugiej ręki, używany = second-hand
+stalowy = steel
+kamienny = stone
+posprzątany = tidy
+nieposprzątany = untidy
+drewniany = wooden
+zabytkowy, staroświecki = antique
+ciasny = cramped
+obskurny = dingy
+zniszczony, walący się = dilapidated
+do remontu = in need of renovation
+dębowy = oak
+duszny = stuffy
+osobliwy = quaint
+o unikalnym wyglądzie = unique-looking
+w budowie = under construction
+dobrze utrzymany, zadbany = well-maintained
+klimatyzacja = air conditioning
+budzik = alarm clock
+dywanik łazienkowy = bath mat
+stolik nocny = bedside table
+koc = blanket
+rolety = blinds
+dywan = carpet
+centralne ogrzewanie = central heating
+komoda = chest of drawers
+ekspres do kawy = coffee maker
+kuchenka = cooker
+szafka kuchenna = cupboard
+zasłony = curtains
+firanki = net curtains
+poduszka (dekoracyjna) = cushion
+zmywarka = dishwasher
+wycieraczka = doormat
+podwójne łóżko = double bed
+kołdra = duvet
+czajnik elektryczny = electric kettle
+wyspa kuchenna = kitchen island
+urządzenia kuchenne = kitchen appliances
+oświetlenie = lighting
+kuchenka mikrofalowa = microwave
+piekarnik = oven
+poduszka = pillow
+roślina doniczkowa = potted plant
+dywanik = rug
+prześcieradło = sheet
+półka = shelf
+pojedyncze łóżko = single bed
+toster = toaster
+toaleta, sedes = toilet
+wieszak na ręczniki = towel rail
+telewizor = TV set
+tapeta = wallpaper
+umywalka = washbasin
+pralka = washing machine
+goła podłoga = bare floor
+narzuta na łóżko = bedspread
+pościel = bedding
+alarm antywłamaniowy = burglar alarm
+łóżko piętrowe = bunk bed
+blat kuchenny = countertop
+suszarka do naczyń = dish drainer
+okno z podwójną szybą = double-glazed window
+oczko wodne = fish pond
+wykładzina dywanowa = fitted carpet
+deski podłogowe = floorboards
+kafelki podłogowe = floor tiles
+klomb = flowerbed
+miska na owoce = fruit bowl
+grzejnik = heater
+system grzewczy = heating system
+przybory kuchenne = kitchen utensils
+półka nad kominkiem = mantelpiece
+ozdoba = ornament
+krzesło biurowe = office chair
+półka, stojak = rack
+kaloryfer = radiator
+okiennice = shutters
+srebrna ramka = silver frame
+alarm przeciwpożarowy = smoke alarm
+panele słoneczne = solar panels
+poręcz przy schodach = stair rail
+stołek, taboret = stool
+parapet okienny = windowsill
+szczotka = brush
+zmieniać pościel = change the sheets
+szufelka = dustpan
+pracować w ogrodzie = do the gardening
+robić zakupy spożywcze = do the grocery shopping
+robić pranie = do the laundry
+zajmować się domem = do the housework
+wycierać kurz z mebli = dust the furniture
+opróżniać zmywarkę = empty the dishwasher
+opróżniać kosz na śmieci = empty the rubbish bin
+pozbywać się niepotrzebnych, nieużywanych rzeczy = have a clear-out
+mieć dobrą rękę do roślin = have green fingers
+odkurzać dywan = hoover the carpet
+prasować ubrania = iron the clothes
+utrzymywać coś w nienagannym porządku = keep sth neat and tidy
+wprowadzać ulepszenia = make improvements
+ścielić łóżko = make the bed
+wycierać podłogę mopem = mop the floor
+kosić trawnik = mow the lawn
+odnowić korytarz = renovate a corridor
+gumowe rękawiczki = rubber gloves
+torba na zakupy = shopping bag
+gąbka = sponge
+zamiatać podłogę = sweep the floor
+ścierka = tea towel
+miotła = broom
+ściereczka do kurzu = duster
+kosiarka = lawnmower
+naprawić cieknący kran = mend a dripping tap
+grabie, grabić = rake
+szpadel = spade
+rydel ogrodniczy = trowel
+zakwaterowanie = accommodation
+ogłoszenie, reklama = ad | advert
+aukcja, licytacja = auction
+rachunek = bill
+budżet = budget
+kaucja, zaliczka = deposit
+agent/agentka nieruchomości = estate agent
+współlokator/współlokatorka = flatmate | housemate | roommate
+właściciel/właścicielka (mieszkania lub domu) = landlord | landlady
+mieszkać samemu = live on one's own
+przeprowadzić się = move house
+wprowadzić się = move in
+wyprowadzić się = move out
+wypowiedzenie = notice
+zapłacić z góry = pay in advance
+płatność = payment
+samochód służący do przewożenia mebli = removal van
+wynająć, czynsz = rent
+dzielić z kimś pokój = share a room
+dzielić z kimś mieszkanie = share a flat
+dzielić z kimś dom = share a house
+do wynajęcia = to let
+oferta w licytacji = bid
+liczyć, pobierać opłatę = charge
+parapetówka = housewarming party
+raty = instalments
+tygodniowo = per week
+miesięcznie = per month
+wziąć kredyt hipoteczny = take out a mortgage
+lokator/lokatorka = tenant
+projekt, plan = blueprint
+cegła = brick
+plac budowy = building site
+klasyczny = classical
+beton, betonowy = concrete
+zbudować, skonstruować = construct
+zburzyć = demolish
+opuszczony = derelict
+fasada = exterior
+brzydactwo, paskudztwo = eyesore
+cecha, właściwość = feature
+podstawa = foundation
+znany, kultowy = iconic
+wnętrze = interior
+marmurowy = marble
+modernistyczny = modernist
+pozwolenie na budowę = planning permission
+tafla szkła = plate glass
+budynek użyteczności publicznej = public building
+budynek komercyjny = commercial building
+budynek historyczny = historic building
+burzyć, rozbierać = pull down
+zbudować, wznieść = put up
+jednopiętrowy = single-storey
+wielopiętrowy = multi-storey
+sylwetka budynku/miasta na tle nieba = skyline
+struktura = structure
+symetryczny = symmetrical
+miejski = urban
+obowiązek, rodzaj nielubianej pracy domowej = chore
+czystość = cleanliness
+pozbyć się czegoś = get rid of sth
+odkładać pieniądze, oszczędzać = put money aside
+odkładać coś (na swoje miejsce) = put sth away
+odkładać coś (na później) = put sth off
+zagotować wodę (na herbatę) = put the kettle on
+znosić coś, tolerować = put up with sth
+nieskazitelnie czysty = spotless
+wyrzucić coś = throw sth away
+łuk = arch
+komnata = chamber
+kopuła = dome
+gmach = edifice
+budynek charakterystyczny dla danego miejsca = landmark
+grobowiec, mauzoleum = mausoleum
+pomnik = monument
+słup = post
+świątynia = temple
+kładka = walkway
+chromowane klamki do drzwi = chrome door handle
+skrzypiące schody = creaky stairs
+zarośnięty ogród = overgrown garden
+górne oświetlenie = overhead lighting
+ogrzewanie podłogowe = underfloor heating
+wymiary sypialni = bedroom dimensions
+zatkany odpływ = blocked drain
+pęknięty tynk = cracked plaster
+źle dopasowane okiennice = ill-fitting shutters
+projekt na dużą skalę = large-scale project
+nieszczelna rura = leaky pipe
+podciągająca wilgoć = rising damp
+przestrzeń do przechowywania = storage space
+`;
+
+// Parse + merge identical Polish prompts
+const map = new Map();
+RAW.trim().split("\n").forEach(line => {
+  const i = line.indexOf(" = ");
+  if (i < 0) return;
+  const pl = line.slice(0, i).trim();
+  const en = line.slice(i + 3).split("|").map(s => s.trim());
+  map.set(pl, (map.get(pl) || []).concat(en));
+});
+const WORDS = [...map].map(([pl, en]) => ({ pl, en }));
+
+const norm = s => s.toLowerCase().replace(/[’‘`]/g, "'").replace(/\s+/g, " ").trim();
+
+let queue = [], cur = null, checked = false, good = 0, total = 0;
+const $ = id => document.getElementById(id);
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function next() {
+  if (!queue.length) queue = shuffle(WORDS.slice());
+  cur = queue.pop();
+  checked = false;
+  $("pl").textContent = cur.pl;
+  $("inp").value = "";
+  $("inp").disabled = false;
+  $("res").textContent = "";
+  $("btn").textContent = "Sprawdź";
+  $("inp").focus();
+  $("score").textContent = `Wynik: ${good} / ${total}  (zostało w rundzie: ${queue.length})`;
+}
+
+function check() {
+  const ans = norm($("inp").value);
+  const ok = cur.en.some(e => norm(e) === ans);
+  total++; if (ok) good++;
+  $("res").innerHTML = ok
+    ? `<span class="ok">✔ Dobrze</span>`
+    : `<span class="bad">✘ Źle.</span> Poprawnie: <b>${cur.en.join(" / ")}</b>`;
+  $("inp").disabled = true;
+  $("btn").textContent = "Dalej";
+  $("score").textContent = `Wynik: ${good} / ${total}  (zostało w rundzie: ${queue.length})`;
+  checked = true;
+  $("btn").focus();
+}
+
+$("btn").onclick = () => checked ? next() : check();
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter") { e.preventDefault(); $("btn").click(); }
+});
+next();
+</script>
+</body>
+</html>
